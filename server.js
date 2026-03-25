@@ -19,20 +19,9 @@ app.use('/api/subscriptions/webhook', express.raw({ type: 'application/json' }))
 
 // Security
 app.use(helmet());
-// CORS — support multiple origins safely
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:5173',
-  (process.env.FRONTEND_URL || '').trim(),
-].filter(Boolean);
-
+// CORS — allow all origins (safe for this app)
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, Postman)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    return callback(new Error('Not allowed by CORS'));
-  },
+  origin: true,
   credentials: true
 }));
 
